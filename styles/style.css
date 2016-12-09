@@ -3,7 +3,7 @@ body {
   padding-left: 100px;
 }
 
-#chartArea {
+#chartArea, #chartArea2 {
   width: 400px;
   height: 300px;
   background-color: #CCC;
@@ -13,4 +13,12 @@ body {
   display: inline-block;
    /* Gets overriden by D3-assigned height below */
   margin-right: 2px;
+}
+
+.bubble {
+  display: inline-block;
+  fill: purple;
+  fill-opacity: 0.5;
+  stroke: black;
+  stroke-weight: 1px;
 }
