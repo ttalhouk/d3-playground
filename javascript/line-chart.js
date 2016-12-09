@@ -31,6 +31,7 @@ function updateChart (subject) {
   var x = d3.time.scale()
     .domain(d3.extent(dates))
     .range([0, w]);
+  // extent evalueates the min and max values
 
   var y = d3.scale.linear()
     .domain(d3.extent(counts))
@@ -48,9 +49,14 @@ function updateChart (subject) {
       return y(d.count);
     });
 
+
+  // area charts require 2 y values.  y0 is the start and y1 is the filled stop
+  // line charts are the same except only 1 y value and use .line()
+
   path
     .datum(data)
     .transition()
     .duration(450)
     .attr('d', area);
+  // sets the path for the line or area chart.
 }

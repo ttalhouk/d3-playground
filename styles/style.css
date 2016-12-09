@@ -58,3 +58,8 @@ path {
   border: 1px solid black;
   margin-top: 10px;
 }
+
+#chart2 {
+  display: flex;
+  background-color: lightgray;
+}

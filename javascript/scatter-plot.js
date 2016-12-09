@@ -1,4 +1,4 @@
-// var dataset = _.map(_.range(25), function (i) {
+// var datasetScatter = _.map(_.range(25), function (i) {
 //   return {
 //     x: Math.random() * 100,
 //     y: Math.random() * 100,
@@ -26,13 +26,13 @@
 //   .range([0, w]);
 //
 // var yScale = d3.scale.linear()
-//   .domain([0, d3.max(dataset, function (d) {
+//   .domain([0, d3.max(datasetScatter, function (d) {
 //   return d.y;
 // })])
 //  .range([h, 0]);
 //
 // svg.selectAll('circle')
-//   .data(dataset)
+//   .data(datasetScatter)
 //   .enter()
 //   .append('circle')
 //   .attr('class', 'bubble')
@@ -53,7 +53,7 @@
 
 // Example 9
 
-// var dataset = _.map(_.range(25), function (i) {
+// var datasetScatter = _.map(_.range(25), function (i) {
 //   return {
 //     x: Math.round(Math.random() * 100),
 //     y: Math.round(Math.random() * 100),
@@ -103,7 +103,7 @@
 //   .call(yAxis);
 //
 // svg.selectAll('circle')
-//   .data(dataset)
+//   .data(datasetScatter)
 //   .enter()
 //   .append('circle')
 //   .attr('class', 'dot')
@@ -119,7 +119,7 @@
 
 // Example 10
 //
-// var dataset = _.map(_.range(25), function (i) {
+// var datasetScatter = _.map(_.range(25), function (i) {
 //     return {
 //         x: Math.round(Math.random() * 100),
 //         y: Math.round(Math.random() * 100),
@@ -168,7 +168,7 @@
 //     .call(yAxis);
 //
 // svg.selectAll('circle')
-//     .data(dataset)
+//     .data(datasetScatter)
 //     .enter()
 //     .append('circle')
 //     .attr('class', 'dot')
@@ -201,7 +201,7 @@
 // Example 11
 
 function update () {
-  _.each(dataset, function (datum) {
+  _.each(datasetScatter, function (datum) {
     datum.x = Math.round(Math.random() * 100);
     datum.y = Math.round(Math.random() * 100);
     datum.r = Math.round(5 + Math.random() * 10);
@@ -235,7 +235,7 @@ function update () {
  // delays the update to allow each element to move one after the other with 25
  // ms delay
 
-var dataset = _.map(_.range(25), function (i) {
+var datasetScatter= _.map(_.range(25), function (i) {
   return {
     x: Math.round(Math.random() * 100),
     y: Math.round(Math.random() * 100),
@@ -294,7 +294,7 @@ svg.append('g')
   .call(yAxis);
 
 svg.selectAll('circle')
-  .data(dataset)
+  .data(datasetScatter)
   .enter()
   .append('circle')
   .attr('class', 'dot')
