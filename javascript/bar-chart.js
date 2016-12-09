@@ -131,63 +131,114 @@
 
 // Example 5 and 6 (xScale and colorScale)
 
-var dataset = _.map(_.range(20), function (i ) {
-    return Math.random() * 500;
-  });
+// var dataset = _.map(_.range(20), function (i ) {
+//     return Math.random() * 500;
+//   });
+// var w = 400, h = 300;
+//
+// var svg = d3.select('#chartArea').append('svg')
+// .attr('width', w)
+// .attr('height', h);
+//
+// var xScale = d3.scale.ordinal()
+// .domain(dataset)
+// .rangeBands([0, w], 0.1, 0.3);
+//
+// // xScale ordinal uses the amout of dataset elements and sets the width
+// // first argument is the width of the chart
+// // second is the spacing between bars
+// // third is spacing on the edges (front and back)
+//
+// var yScale = d3.scale.linear()
+// .domain([0, d3.max(dataset) * 1.1])
+// .range([0, h]);
+//
+// var colorScaleMax = d3.scale.linear()
+//   .domain([0, d3.max(dataset)])
+//   .range(['orange', 'purple']);
+//
+// // Blends the colors starting based on value from orange to purple
+//
+// var colorScaleLength = d3.scale.linear()
+//   .domain([0, dataset.length])
+//   .range(['yellow', 'green']);
+//
+// // Blends the colors starting at yellow and ending on green
+//
+// var multiplier = 5;
+//
+// svg.selectAll('rect')
+// .data(dataset)
+// .enter()
+// .append('rect')
+// .attr('class', 'bar')
+// .attr('x', function (d, i) {
+//   return xScale(d);
+// })
+// .attr('y', function (d) {
+//   return h - yScale(d);
+// })
+// .attr('width', xScale.rangeBand())
+// .attr('height', function (d) {
+//   return yScale(d);
+// })
+// .attr('fill', colorScaleMax);
+//
+// // .attr('fill', function (d, i) {
+// //   return colorScaleLength(i);
+// // });
+//
+// // ordinal xScale allows for rangeBand to be used to set the bars and the scaleing for the width and x attribute
+// // Apply the color scale Length using the fill attr on the yScale
+// // Apply colorScaleMax to set the fill based on dataset value
+
+// Example 7
+
+var dataset = _.map(_.range(75), function (i) {
+  return Math.random() * 500;
+});
 var w = 400, h = 300;
 
 var svg = d3.select('#chartArea').append('svg')
-.attr('width', w)
-.attr('height', h);
+  .attr('width', w)
+  .attr('height', h);
 
 var xScale = d3.scale.ordinal()
-.domain(dataset)
-.rangeBands([0, w], 0.1, 0.3);
-
-// xScale ordinal uses the amout of dataset elements and sets the width
-// first argument is the width of the chart
-// second is the spacing between bars
-// third is spacing on the edges (front and back)
+  .domain(dataset)
+  .rangeBands([0, w], 0.1, 0.3);
 
 var yScale = d3.scale.linear()
-.domain([0, d3.max(dataset) * 1.1])
-.range([0, h]);
+  .domain([0, d3.max(dataset) * 1.1])
+  .range([0, h]);
 
-var colorScaleMax = d3.scale.linear()
-  .domain([0, d3.max(dataset)])
-  .range(['orange', 'purple']);
-
-// Blends the colors starting based on value from orange to purple
-
-var colorScaleLength = d3.scale.linear()
+var colorScaleQunatize = d3.scale.quantize()
   .domain([0, dataset.length])
-  .range(['yellow', 'green']);
+  .range(['yellow', 'orange', 'green']);
+// Sets up equally distributed buckets for the dataset
 
-// Blends the colors starting at yellow and ending on green
+var colorScale = d3.scale.quantile()
+  .domain([0, 10, dataset.length - 10, dataset.length])
+  .range(['yellow', 'orange', 'green']);
 
-var multiplier = 5;
+// quantile scaleing sets up buckets for the data set to be grouped by.
+// Based on the number of range elements in the array it sets up that many buckets
+// Arguments for the domain are [begining, end of fist set, end of second set, end]
 
 svg.selectAll('rect')
-.data(dataset)
-.enter()
-.append('rect')
-.attr('class', 'bar')
-.attr('x', function (d, i) {
-  return xScale(d);
-})
-.attr('y', function (d) {
-  return h - yScale(d);
-})
-.attr('width', xScale.rangeBand())
-.attr('height', function (d) {
-  return yScale(d);
-})
-.attr('fill', colorScaleMax);
-
-// .attr('fill', function (d, i) {
-//   return colorScaleLength(i);
-// });
-
-// ordinal xScale allows for rangeBand to be used to set the bars and the scaleing for the width and x attribute
-// Apply the color scale Length using the fill attr on the yScale
-// Apply colorScaleMax to set the fill based on dataset value
+  .data(dataset)
+  .enter()
+  .append('rect')
+  .attr('class', 'bar')
+  .attr('x', function (d, i) {
+    return xScale(d);
+  })
+  .attr('y', function (d) {
+    return h - yScale(d);
+  })
+  .attr('width', xScale.rangeBand())
+  .attr('height', function (d) {
+    return yScale(d);
+  })
+  .attr('fill', function (d, i) {
+    return colorScale(i);
+  });
