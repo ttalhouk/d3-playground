@@ -13,5 +13,4 @@ body {
   display: inline-block;
    /* Gets overriden by D3-assigned height below */
   margin-right: 2px;
-  fill: teal;
 }

@@ -129,7 +129,7 @@
   //   });
 
 
-// Example 5
+// Example 5 and 6 (xScale and colorScale)
 
 var dataset = _.map(_.range(20), function (i ) {
     return Math.random() * 500;
@@ -153,6 +153,18 @@ var yScale = d3.scale.linear()
 .domain([0, d3.max(dataset) * 1.1])
 .range([0, h]);
 
+var colorScaleMax = d3.scale.linear()
+  .domain([0, d3.max(dataset)])
+  .range(['orange', 'purple']);
+
+// Blends the colors starting based on value from orange to purple
+
+var colorScaleLength = d3.scale.linear()
+  .domain([0, dataset.length])
+  .range(['yellow', 'green']);
+
+// Blends the colors starting at yellow and ending on green
+
 var multiplier = 5;
 
 svg.selectAll('rect')
@@ -169,6 +181,13 @@ svg.selectAll('rect')
 .attr('width', xScale.rangeBand())
 .attr('height', function (d) {
   return yScale(d);
-});
+})
+.attr('fill', colorScaleMax);
+
+// .attr('fill', function (d, i) {
+//   return colorScaleLength(i);
+// });
 
 // ordinal xScale allows for rangeBand to be used to set the bars and the scaleing for the width and x attribute
+// Apply the color scale Length using the fill attr on the yScale
+// Apply colorScaleMax to set the fill based on dataset value
