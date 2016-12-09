@@ -264,11 +264,18 @@ var xAxis = d3.svg.axis()
   .innerTickSize(6)
   .outerTickSize(12)
   .tickPadding(12);
+// properties of the xAxis using the .axis property on the d3 object
+// numbers placed on bottom
+// ticks is number of ticks
+// tick size is size of ticks (inner and outer)
+// tick padding is the space betweent the tick and number
 
 svg.append('g')
   .attr('class', 'x axis')
   .attr('transform', 'translate(0, '+ (h + 0) + ')')
   .call(xAxis);
+// appends a grapic element which we call xAxis from above
+// transform moves it to the bottom of the chart
 
 var yScale = d3.scale.linear()
   .domain([0, 100])
@@ -277,6 +284,8 @@ var yScale = d3.scale.linear()
 var yAxis = d3.svg.axis()
   .scale(yScale)
   .orient('left');
+
+// orient adds numbers to the left of the axis
 
 svg.append('g')
   .attr('class', 'y axis')
