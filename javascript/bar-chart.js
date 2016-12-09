@@ -193,52 +193,98 @@
 // // Apply colorScaleMax to set the fill based on dataset value
 
 // Example 7
+//
+// var dataset = _.map(_.range(75), function (i) {
+//   return Math.random() * 500;
+// });
+// var w = 400, h = 300;
+//
+// var svg = d3.select('#chartArea').append('svg')
+//   .attr('width', w)
+//   .attr('height', h);
+//
+// var xScale = d3.scale.ordinal()
+//   .domain(dataset)
+//   .rangeBands([0, w], 0.1, 0.3);
+//
+// var yScale = d3.scale.linear()
+//   .domain([0, d3.max(dataset) * 1.1])
+//   .range([0, h]);
+//
+// var colorScaleQunatize = d3.scale.quantize()
+//   .domain([0, dataset.length])
+//   .range(['yellow', 'orange', 'green']);
+// // Sets up equally distributed buckets for the dataset
+//
+// var colorScale = d3.scale.quantile()
+//   .domain([0, 10, dataset.length - 10, dataset.length])
+//   .range(['yellow', 'orange', 'green']);
+//
+// // quantile scaleing sets up buckets for the data set to be grouped by.
+// // Based on the number of range elements in the array it sets up that many buckets
+// // Arguments for the domain are [begining, end of fist set, end of second set, end]
+//
+// svg.selectAll('rect')
+//   .data(dataset)
+//   .enter()
+//   .append('rect')
+//   .attr('class', 'bar')
+//   .attr('x', function (d, i) {
+//     return xScale(d);
+//   })
+//   .attr('y', function (d) {
+//     return h - yScale(d);
+//   })
+//   .attr('width', xScale.rangeBand())
+//   .attr('height', function (d) {
+//     return yScale(d);
+//   })
+//   .attr('fill', function (d, i) {
+//     return colorScale(i);
+//   });
 
-var dataset = _.map(_.range(75), function (i) {
-  return Math.random() * 500;
+
+// Example 8 setting margins
+// use margin object to allow for adding labels and axis
+
+var dataset = _.map(_.range(25), function (i) {
+  return Math.random() * 50;
 });
-var w = 400, h = 300;
+
+var margin = {top: 25, right: 0, bottom: 20, left: 40};
+
+// set margin object for controlling margins
+
+var w = 400 - margin.left - margin.right,
+  h = 300 - margin.top - margin.bottom;
+
+// setting area for chart dataset to reside by removing margin values
 
 var svg = d3.select('#chartArea').append('svg')
-  .attr('width', w)
-  .attr('height', h);
+  .attr('width', w + margin.left + margin.right)
+  .attr('height', h + margin.top + margin.bottom)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+// using margin object to add margin back into SVG chart
+
 
 var xScale = d3.scale.ordinal()
   .domain(dataset)
-  .rangeBands([0, w], 0.1, 0.3);
+  .rangeBands([0, w], 0.1, 0);
 
 var yScale = d3.scale.linear()
-  .domain([0, d3.max(dataset) * 1.1])
-  .range([0, h]);
-
-var colorScaleQunatize = d3.scale.quantize()
-  .domain([0, dataset.length])
-  .range(['yellow', 'orange', 'green']);
-// Sets up equally distributed buckets for the dataset
-
-var colorScale = d3.scale.quantile()
-  .domain([0, 10, dataset.length - 10, dataset.length])
-  .range(['yellow', 'orange', 'green']);
-
-// quantile scaleing sets up buckets for the data set to be grouped by.
-// Based on the number of range elements in the array it sets up that many buckets
-// Arguments for the domain are [begining, end of fist set, end of second set, end]
+  .domain([0, d3.max(dataset)])
+  .range([h, 0]);
 
 svg.selectAll('rect')
   .data(dataset)
   .enter()
   .append('rect')
   .attr('class', 'bar')
-  .attr('x', function (d, i) {
-    return xScale(d);
-  })
-  .attr('y', function (d) {
-    return h - yScale(d);
-  })
+  .attr('x', xScale)
   .attr('width', xScale.rangeBand())
+  .attr('y', yScale)
   .attr('height', function (d) {
-    return yScale(d);
-  })
-  .attr('fill', function (d, i) {
-    return colorScale(i);
+    return h - yScale(d);
   });
