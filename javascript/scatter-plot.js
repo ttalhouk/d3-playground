@@ -276,6 +276,7 @@ svg.append('g')
   .call(xAxis);
 // appends a grapic element which we call xAxis from above
 // transform moves it to the bottom of the chart
+// call can also call functions usefull for making modified transitions.
 
 var yScale = d3.scale.linear()
   .domain([0, 100])
