@@ -40,3 +40,9 @@ body {
   stroke-width: 1px;
   shape-rendering: crispEdges;
 }
+
+.active {
+  fill: magenta;
+  fill-opacity: 0.5;
+  stroke-width: 3px;
+}
