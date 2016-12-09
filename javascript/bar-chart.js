@@ -90,40 +90,85 @@
 //   });
 
   // Example 4
+  //
+  // var dataset = _.map(_.range(15), function (i ) {
+  //   return Math.random() * 5000;
+  // });
+  //
+  // // Gets a random sampling of 15 data points from 0-5000
+  //
+  // var w = 400, h = 300;
+  //
+  // var svg = d3.select('#chartArea').append('svg')
+  //   .attr('width', w)
+  //   .attr('height', h);
+  //
+  // var yScale = d3.scale.linear()
+  //   .domain([0, d3.max(dataset) * 1.1])
+  //   .range([0, h]);
+  //
+  // // .max pulls the max item from the data set for the domain
+  // // * 1.1 adds padding on top
+  //
+  // var multiplier = 5;
+  //
+  // svg.selectAll('rect')
+  //   .data(dataset)
+  //   .enter()
+  //   .append('rect')
+  //   .attr('class', 'bar')
+  //   .attr('x', function (d, i) {
+  //     return i * 22;
+  //   })
+  //   .attr('y', function (d) {
+  //     return h - yScale(d);
+  //   })
+  //   .attr('width', 20)
+  //   .attr('height', function (d) {
+  //     return yScale(d);
+  //   });
 
-  var dataset = _.map(_.range(15), function (i ) {
-    return Math.random() * 5000;
+
+// Example 5
+
+var dataset = _.map(_.range(20), function (i ) {
+    return Math.random() * 500;
   });
+var w = 400, h = 300;
 
-  // Gets a random sampling of 15 data points from 0-5000
+var svg = d3.select('#chartArea').append('svg')
+.attr('width', w)
+.attr('height', h);
 
-  var w = 400, h = 300;
+var xScale = d3.scale.ordinal()
+.domain(dataset)
+.rangeBands([0, w], 0.1, 0.3);
 
-  var svg = d3.select('#chartArea').append('svg')
-    .attr('width', w)
-    .attr('height', h);
+// xScale ordinal uses the amout of dataset elements and sets the width
+// first argument is the width of the chart
+// second is the spacing between bars
+// third is spacing on the edges (front and back)
 
-  var yScale = d3.scale.linear()
-    .domain([0, d3.max(dataset) * 1.1])
-    .range([0, h]);
+var yScale = d3.scale.linear()
+.domain([0, d3.max(dataset) * 1.1])
+.range([0, h]);
 
-  // .max pulls the max item from the data set for the domain
-  // * 1.1 adds padding on top
-  
-  var multiplier = 5;
+var multiplier = 5;
 
-  svg.selectAll('rect')
-    .data(dataset)
-    .enter()
-    .append('rect')
-    .attr('class', 'bar')
-    .attr('x', function (d, i) {
-      return i * 22;
-    })
-    .attr('y', function (d) {
-      return h - yScale(d);
-    })
-    .attr('width', 20)
-    .attr('height', function (d) {
-      return yScale(d);
-    });
+svg.selectAll('rect')
+.data(dataset)
+.enter()
+.append('rect')
+.attr('class', 'bar')
+.attr('x', function (d, i) {
+  return xScale(d);
+})
+.attr('y', function (d) {
+  return h - yScale(d);
+})
+.attr('width', xScale.rangeBand())
+.attr('height', function (d) {
+  return yScale(d);
+});
+
+// ordinal xScale allows for rangeBand to be used to set the bars and the scaleing for the width and x attribute
