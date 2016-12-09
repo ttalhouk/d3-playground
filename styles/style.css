@@ -3,9 +3,14 @@ body {
   padding-left: 100px;
 }
 
-#chartArea, #chartArea2 {
+#chartArea {
   width: 400px;
   height: 300px;
+  background-color: #CCC;
+}
+#chartArea2 {
+  width: 500px;
+  height: 400px;
   background-color: #CCC;
 }
 
@@ -21,4 +26,17 @@ body {
   fill-opacity: 0.5;
   stroke: black;
   stroke-weight: 1px;
+}
+
+.dot {
+  fill: teal;
+  fill-opacity: 0.7;
+  stroke: black;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
 }
