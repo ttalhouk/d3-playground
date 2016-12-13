@@ -180,6 +180,32 @@ var scores = [
 
 // Working with SVG containers
 
+// var bar = d3.select('.chart')
+//   .append('svg')
+//     .attr('width', 225)
+//     .attr('height', 300)
+//   .selectAll('g')
+//   .data(scores)
+//   .enter()
+//     // creating g elements "graphic element" to allow text to be added
+//     .append('g')
+//     // can't use Y spacing for g elements
+//     // instead transform and translate ordinally
+//     .attr('transform', (d, i) => 'translate(0, ' + i * 33 + ')');
+//
+// // rect is drawn inside the g element
+// bar.append('rect')
+//     .style('width', d => d.score)
+//     .attr('class', 'bar');
+// // text added to g element
+// bar.append('text')
+//   .attr('y', 20)
+//   .text(function (d) {
+//     return d.name;
+//   });
+
+// Interactive elements
+
 var bar = d3.select('.chart')
   .append('svg')
     .attr('width', 225)
@@ -192,7 +218,22 @@ var bar = d3.select('.chart')
 
 bar.append('rect')
     .style('width', d => d.score)
-    .attr('class', 'bar');
+    .attr('class', 'bar')
+    // set on mouseover event handler callback using d(ata), i(ndex), elements (list of rect elements)
+    .on('mouseover', function (d, i, elements) {
+      // the item moused over is transformed in the x direction by 2x
+      d3.select(this).style('transform', 'scaleX(2)');
+      // all elements not hovered over have opacity decreased to .5
+      d3.selectAll(elements)
+        .filter(':not(:hover)')
+        .style('fill-opacity', 0.5);
+    })
+    // reverse on mouse out
+    .on('mouseout', function (d, i, elements) {
+      d3.select(this).style('transform', 'scaleX(1)');
+      d3.selectAll(elements)
+        .style('fill-opacity', 1);
+    });
 
 bar.append('text')
   .attr('y', 20)
