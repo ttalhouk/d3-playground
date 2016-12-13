@@ -158,21 +158,44 @@ var scores = [
   { name: 'Emily', score: 88 }
 ];
 
-d3.select('.chart')
-  // create SVG Element
+// d3.select('.chart')
+//   // create SVG Element
+//   .append('svg')
+//     // add attributes to the SVG element within .chart
+//     .attr('width', 225)
+//     .attr('height', 300)
+//   // make the elements into svg rect elements
+//   .selectAll('rect')
+//   .data(scores)
+//   .enter()
+//     .append('rect')
+//     // after appending a rect add y height to space them out
+//     .attr('y', (d, i) => i * 33)
+//     .style('width', d => d.score)
+//     .text(function (d) {
+//       return d.name;
+//     })
+//     .attr('class', 'bar');
+
+
+// Working with SVG containers
+
+var bar = d3.select('.chart')
   .append('svg')
-    // add attributes to the SVG element within .chart
     .attr('width', 225)
     .attr('height', 300)
-  // make the elements into svg rect elements
-  .selectAll('rect')
+  .selectAll('g')
   .data(scores)
   .enter()
-    .append('rect')
-    // after appending a rect add y height to space them out
-    .attr('y', (d, i) => i * 33)
+    .append('g')
+    .attr('transform', (d, i) => 'translate(0, ' + i * 33 + ')');
+
+bar.append('rect')
     .style('width', d => d.score)
-    .text(function (d) {
-      return d.name;
-    })
     .attr('class', 'bar');
+
+bar.append('text')
+  .attr('y', 20)
+  .text(function (d) {
+    return d.name;
+  });
