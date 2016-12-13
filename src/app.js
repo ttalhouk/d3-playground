@@ -1,9 +1,9 @@
-(function () {
-  var body = document.querySelector('body');
-  body.style['fontFamily'] = 'monospace';
-  body.style['fontSize'] = '2em';
-  console.log = function (x) { body.innerText += x + '\n'; };
-}());
+// (function () {
+//   var body = document.querySelector('body');
+//   body.style['fontFamily'] = 'monospace';
+//   body.style['fontSize'] = '2em';
+//   console.log = function (x) { body.innerText += x + '\n'; };
+// }());
 
 // LinearScale example
 
@@ -45,29 +45,50 @@
 
 // Load and Inspect data
 
-// CSV parsing
-d3.csv('data/data.csv', function(data){
-  console.log(data);
-})
+// data parsing
+// d3.csv('data/data.csv', function(data){
+//   console.log(data);
+// })
+//
+// d3.tsv('data/data.tsv', function(data){
+//   console.log(data);
+// })
+//
+//
+// d3.json('data/data.json', function (data) {
+//   // collect the upper and lower age values in extent
+//   var extent = d3.extent(data, function (d) {
+//     return d.age;
+//   });
+//   console.log(extent); // [13,38]
+//
+//   // set scale of ages using the extent value
+//   var scale = d3.scaleLinear()
+//     .domain(extent)
+//     .range([0, 600]);
+//   console.log(scale(37)); // 576
+//
+//   // collect all unique values of ages in the dataset
+//   var ages = d3.set(data, function (d) {
+//     return d.age;
+//   });
+//   console.log(ages.values());
+// })
 
-d3.tsv('data/data.tsv', function(data){
-  console.log(data);
-})
+// Selecting the DOM
 
+// selecting first div
+var div = d3.select('div');
+console.log(div.nodes());
 
-d3.json('data/data.json', function (data) {
-  var extent = d3.extent(data, function (d) {
-    return d.age;
-  });
-  console.log(extent);
+// selecting all a tags in the div
+var divLinks = div.selectAll('a');
+console.log(divLinks.nodes());
 
-  var scale = d3.scaleLinear()
-    .domain(extent)
-    .range([0, 600]);
-  console.log(scale(37));
+// selecting the second a tag
+var secondLink = d3.selectAll('a:nth-child(2)');
+console.log(secondLink.nodes());
 
-  var ages = d3.set(data, function (d) {
-    return d.age;
-  });
-  console.log(ages.values());
-})
+// selecting all links
+var allLinks = d3.selectAll(document.links);
+console.log(allLinks.size()); // 4
