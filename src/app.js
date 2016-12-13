@@ -95,13 +95,23 @@
 
 // Manipulating the DOM
 
-var secondLink = d3.selectAll('a:nth-child(2)')
-// set href to google.com
-secondLink.attr('href', 'http://google.com');
-console.log(secondLink.attr('href'));
+// var secondLink = d3.selectAll('a:nth-child(2)')
+// // set href to google.com
+// secondLink.attr('href', 'http://google.com');
+// console.log(secondLink.attr('href'));
+//
+// var secondLink = d3.selectAll('a:nth-child(2)')
+//   // .style('color', 'red');
+//   .classed('red', true)
+//   // .text('Inventory')
+//   .html('inventory <b>SALE</b>')
 
-var secondLink = d3.selectAll('a:nth-child(2)')
-  // .style('color', 'red');
-  .classed('red', true)
-  // .text('Inventory')
-  .html('inventory <b>SALE</b>')
+// Creating DOM elements
+
+d3.select('.title')
+  .append('div')
+    .style('color', 'red')
+    .html('Inventory <b>SALE</b>')
+  .append('button')
+    .style('display', 'block')
+    .text('submit');
