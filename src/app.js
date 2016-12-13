@@ -77,18 +77,31 @@
 
 // Selecting the DOM
 
-// selecting first div
-var div = d3.select('div');
-console.log(div.nodes());
+// // selecting first div
+// var div = d3.select('div');
+// console.log(div.nodes());
+//
+// // selecting all a tags in the div
+// var divLinks = div.selectAll('a');
+// console.log(divLinks.nodes());
+//
+// // selecting the second a tag
+// var secondLink = d3.selectAll('a:nth-child(2)');
+// console.log(secondLink.nodes());
+//
+// // selecting all links
+// var allLinks = d3.selectAll(document.links);
+// console.log(allLinks.size()); // 4
 
-// selecting all a tags in the div
-var divLinks = div.selectAll('a');
-console.log(divLinks.nodes());
+// Manipulating the DOM
 
-// selecting the second a tag
-var secondLink = d3.selectAll('a:nth-child(2)');
-console.log(secondLink.nodes());
+var secondLink = d3.selectAll('a:nth-child(2)')
+// set href to google.com
+secondLink.attr('href', 'http://google.com');
+console.log(secondLink.attr('href'));
 
-// selecting all links
-var allLinks = d3.selectAll(document.links);
-console.log(allLinks.size()); // 4
+var secondLink = d3.selectAll('a:nth-child(2)')
+  // .style('color', 'red');
+  .classed('red', true)
+  // .text('Inventory')
+  .html('inventory <b>SALE</b>')
