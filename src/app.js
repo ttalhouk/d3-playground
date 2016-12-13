@@ -117,32 +117,62 @@
 //     .text('submit');
 //
 
-    var scores = [
-      { name: 'Alice', score: 96 },
-      { name: 'Billy', score: 83 },
-      { name: 'Cindy', score: 91 },
-      { name: 'David', score: 96 },
-      { name: 'Emily', score: 88 }
-    ];
+// Data visualization
+    // var scores = [
+    //   { name: 'Alice', score: 96 },
+    //   { name: 'Billy', score: 83 },
+    //   { name: 'Cindy', score: 91 },
+    //   { name: 'David', score: 96 },
+    //   { name: 'Emily', score: 88 }
+    // ];
+    //
+    // var update = d3.select('.chart')
+    //   .selectAll('div')
+    //   .data(scores, function (d) {
+    //     return d ? d.name : this.innerText;
+    //   })
+    //   .style('color', 'blue');
+    //
+    // var enter = update.enter()
+    //   .append('div')
+    //   .text(function (d) {
+    //     return d.name;
+    //   })
+    //   .style('color', 'green');
+    //
+    // update.exit().remove();
+    //
+    // update.merge(enter)
+    //   .style('width', d => d.score + 'px')
+    //   .style('height', '50px')
+    //   .style('background', 'lightgreen')
+    //   .style('border', '1px solid black')
 
-    var update = d3.select('.chart')
-      .selectAll('div')
-      .data(scores, function (d) {
-        return d ? d.name : this.innerText;
-      })
-      .style('color', 'blue');
+// SVG example
 
-    var enter = update.enter()
-      .append('div')
-      .text(function (d) {
-        return d.name;
-      })
-      .style('color', 'green');
+var scores = [
+  { name: 'Alice', score: 96 },
+  { name: 'Billy', score: 83 },
+  { name: 'Cindy', score: 91 },
+  { name: 'David', score: 96 },
+  { name: 'Emily', score: 88 }
+];
 
-    update.exit().remove();
-
-    update.merge(enter)
-      .style('width', d => d.score + 'px')
-      .style('height', '50px')
-      .style('background', 'lightgreen')
-      .style('border', '1px solid black')
+d3.select('.chart')
+  // create SVG Element
+  .append('svg')
+    // add attributes to the SVG element within .chart
+    .attr('width', 225)
+    .attr('height', 300)
+  // make the elements into svg rect elements
+  .selectAll('rect')
+  .data(scores)
+  .enter()
+    .append('rect')
+    // after appending a rect add y height to space them out
+    .attr('y', (d, i) => i * 33)
+    .style('width', d => d.score)
+    .text(function (d) {
+      return d.name;
+    })
+    .attr('class', 'bar');
