@@ -23,11 +23,22 @@
 // console.log(timeScale(2016, 4, 15));
 
 // Quantize Scales
-var quantizeScale = d3.scaleQuantize()
-  .domain([0, 100])
-  .range(["red", "green"])
+// var quantizeScale = d3.scaleQuantize()
+//   .domain([0, 100])
+//   .range(["red", "green"])
+//
+// console.log(quantizeScale(50));
+// // domain is broken into the amount of range values so 0-49 is red, 50-100 is green
+//
+// console.log(quantizeScale.invertExtent("green"))
 
-console.log(quantizeScale(50));
-// domain is broken into the amount of range values so 0-49 is red, 50-100 is green
 
-console.log(quantizeScale.invertExtent("green")) 
+// Ordinal Scales
+
+var ordinalScale = d3.scaleOrdinal()
+  .domain(["poor", "good", "great"])
+  .range(["red", "white", "green"])
+
+console.log(ordinalScale("good"));
+// domain is mapped to the range poor >> red, good >> white, great >> green
+// this is based on position in the array
