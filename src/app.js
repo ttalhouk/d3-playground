@@ -578,91 +578,108 @@ function responsivefy(svg) {
 
 // line chart example
 
-var margin = { top: 10, right: 20, bottom: 30, left: 30 };
-var width = 400 - margin.left - margin.right;
-var height = 565 - margin.top - margin.bottom;
+// var margin = { top: 10, right: 20, bottom: 30, left: 30 };
+// var width = 400 - margin.left - margin.right;
+// var height = 565 - margin.top - margin.bottom;
+//
+// var svg = d3.select('.chart')
+//   .append('svg')
+//     .attr('width', width + margin.left + margin.right)
+//     .attr('height', height + margin.top + margin.bottom)
+//     .call(responsivefy)
+//   .append('g')
+//     .attr('transform', `translate(${margin.left}, ${margin.top})`);
+//
+// d3.json('../data/line-chart_data.json', function (err, data) {
+//   // parsing time data as formated for data
+//   var parseTime = d3.timeParse('%Y/%m/%d');
+//
+//   // itterate over the data to transform
+//   data.forEach(company => {
+//     company.values.forEach(d => {
+//       d.date = parseTime(d.date);
+//       d.close = +d.close; // + converts to a numeric expression
+//     });
+//   });
+//
+//   // build x axis graphics container
+//   var xScale = d3.scaleTime()
+//     .domain([
+//       d3.min(data, co => d3.min(co.values, d => d.date)),
+//       d3.max(data, co => d3.max(co.values, d => d.date))
+//     ])
+//     .range([0, width]);
+//   svg
+//     .append('g')
+//       .attr('transform', `translate(0, ${height})`)
+//     .call(d3.axisBottom(xScale).ticks(5));
+//
+//   // build y axis graphics container
+//   var yScale = d3.scaleLinear()
+//     .domain([
+//       d3.min(data, co => d3.min(co.values, d => d.close)),
+//       d3.max(data, co => d3.max(co.values, d => d.close))
+//     ])
+//     .range([height, 0]);
+//   svg
+//     .append('g')
+//     .call(d3.axisLeft(yScale));
+//
+//   // // build line
+//   // var line = d3.line()
+//   //   .x(d => xScale(d.date))
+//   //   .y(d => yScale(d.close))
+//   //   // apply curve through data points
+//   //   .curve(d3.curveCatmullRom.alpha(0.5));
+//   //
+//   // svg
+//   //   .selectAll('.line')
+//   //   .data(data)
+//   //   .enter()
+//   //   .append('path')
+//   //   // apply line class for svg to select
+//   //   .attr('class', 'line')
+//   //   .attr('d', d => line(d.values))
+//   //   .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
+//   //   .style('stroke-width', 2)
+//   //   .style('fill', 'none');
+// // Area Charts example
+//
+//   var area = d3.area()
+//     .x(d => xScale(d.date))
+//     // set bottom of the area to the min domain value
+//     .y0(yScale(yScale.domain()[0]))
+//     .y1(d => yScale(d.close));
+//
+//   svg
+//     .selectAll('.area')
+//     .data(data)
+//     .enter()
+//     .append('path')
+//     .attr('class', 'area')
+//     // pass data values to area function
+//     .attr('d', d => area(d.values))
+//     .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
+//     .style('stroke-width', 2)
+//     .style('fill', (d, i) => ['#FF9900', '#3369E8'][i])
+//     .style('fill-opacity', 0.5);
+//
+//
+// });
 
-var svg = d3.select('.chart')
-  .append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .call(responsivefy)
-  .append('g')
-    .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-d3.json('../data/line-chart_data.json', function (err, data) {
-  // parsing time data as formated for data
-  var parseTime = d3.timeParse('%Y/%m/%d');
-
-  // itterate over the data to transform
-  data.forEach(company => {
-    company.values.forEach(d => {
-      d.date = parseTime(d.date);
-      d.close = +d.close; // + converts to a numeric expression
-    });
-  });
-
-  // build x axis graphics container
-  var xScale = d3.scaleTime()
-    .domain([
-      d3.min(data, co => d3.min(co.values, d => d.date)),
-      d3.max(data, co => d3.max(co.values, d => d.date))
-    ])
-    .range([0, width]);
-  svg
-    .append('g')
-      .attr('transform', `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale).ticks(5));
-
-  // build y axis graphics container
-  var yScale = d3.scaleLinear()
-    .domain([
-      d3.min(data, co => d3.min(co.values, d => d.close)),
-      d3.max(data, co => d3.max(co.values, d => d.close))
-    ])
-    .range([height, 0]);
-  svg
-    .append('g')
-    .call(d3.axisLeft(yScale));
-
-  // // build line
-  // var line = d3.line()
-  //   .x(d => xScale(d.date))
-  //   .y(d => yScale(d.close))
-  //   // apply curve through data points
-  //   .curve(d3.curveCatmullRom.alpha(0.5));
-  //
-  // svg
-  //   .selectAll('.line')
-  //   .data(data)
-  //   .enter()
-  //   .append('path')
-  //   // apply line class for svg to select
-  //   .attr('class', 'line')
-  //   .attr('d', d => line(d.values))
-  //   .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
-  //   .style('stroke-width', 2)
-  //   .style('fill', 'none');
-// Area Charts example
-
-  var area = d3.area()
-    .x(d => xScale(d.date))
-    // set bottom of the area to the min domain value
-    .y0(yScale(yScale.domain()[0]))
-    .y1(d => yScale(d.close));
-
-  svg
-    .selectAll('.area')
-    .data(data)
-    .enter()
-    .append('path')
-    .attr('class', 'area')
-    // pass data values to area function
-    .attr('d', d => area(d.values))
-    .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
-    .style('stroke-width', 2)
-    .style('fill', (d, i) => ['#FF9900', '#3369E8'][i])
-    .style('fill-opacity', 0.5);
-
-
-});
+// Transitions
+d3.select('#block')
+  .transition()
+    .duration(600)
+    .delay(750)
+    .ease(d3.easeBounceOut)
+    .style('width', '400px')
+  .transition()
+    .duration(600)
+    .ease(d3.easeBounceOut)
+    .style('height', '600px')
+  .transition()
+    .duration(2000)
+    .ease(d3.easeQuadOut)
+    .style('background-color', 'purple')
