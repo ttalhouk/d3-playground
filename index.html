@@ -24,17 +24,27 @@
       /*width: 425px;
       height: 625px;*/
     }
-    rect {
+    /*rect {
       fill: steelblue;
     }
     rect:hover {
       fill: turquoise;
-    }
+    }*/
     #block {
       background: lightgray;
       border: 1px solid black;
       width: 100px;
       height: 100px;
+
+
+    }
+
+    .block {
+      background: lightgray;
+      border: 1px solid black;
+      width: 50px;
+      height: 50px;
+      margin-bottom: 1em;
     }
   </style>
 </head>
@@ -55,7 +65,13 @@
     <div>Walter</div> -->
   <!-- </div> -->
 
-  <div id="block"></div>
+  <!-- <div id="block"></div> -->
+
+  <div class="block a"></div>
+  <div class="block b"></div>
+
+  <button onclick="go()">Go</button>
+  <button onclick="goNow()">Go Now</button>
 
   <script src="src/app.js"></script>
 </body>

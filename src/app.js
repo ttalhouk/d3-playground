@@ -669,17 +669,51 @@ function responsivefy(svg) {
 
 
 // Transitions
-d3.select('#block')
-  .transition()
-    .duration(600)
-    .delay(750)
-    .ease(d3.easeBounceOut)
-    .style('width', '400px')
-  .transition()
-    .duration(600)
-    .ease(d3.easeBounceOut)
-    .style('height', '600px')
-  .transition()
-    .duration(2000)
-    .ease(d3.easeQuadOut)
-    .style('background-color', 'purple')
+// d3.select('#block')
+//   .transition()
+//     .duration(600)
+//     .delay(750)
+//     .ease(d3.easeBounceOut)
+//     .style('width', '400px')
+//   .transition()
+//     .duration(600)
+//     .ease(d3.easeBounceOut)
+//     .style('height', '600px')
+//   .transition()
+//     .duration(2000)
+//     .ease(d3.easeQuadOut)
+//     .style('background-color', 'purple')
+
+// Reusable Transitions
+
+function go () {
+  // t is a transition function with a delay and durration set to 1s
+  var t = d3.transition()
+    .delay(1000)
+    .duration(1000);
+
+  d3.selectAll('.block')
+    .transition(t)
+    .style('width', '400px');
+
+  d3.select('.a')
+    .transition(t)
+    .style('background-color', 'orange');
+
+  d3.select('.b')
+    .transition(t)
+    .style('background-color', 'blue');
+}
+
+// configure function sets up a t transition function with variable
+// delay and duration
+function configure (t, delay, duration) {
+  return t.delay(delay).duration(duration);
+}
+
+function goNow () {
+  d3.selectAll('.block')
+    .transition()
+    .call(configure, 1000, 1000)
+    .style('height', '200px');
+}
