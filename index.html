@@ -1,35 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>D3 - Data Driven Documents</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.js" charset="utf-8"></script>
-  <script src="https://jashkenas.github.io/underscore/underscore-min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-  <link rel="stylesheet" href="./styles/style.css" media="screen" title="no title" charset="utf-8">
+  <meta charset="UTF-8">
+  <title>Egghead D3 v4</title>
+  <script src="//d3js.org/d3.v4.min.js"></script>
+  <style>
+    .title { display: inline-block; border: 1px solid black; }
+    a { display: block; }
+    .red { color: red; }
+    .chart {
+      background: lightgray;
+      border: 1px solid black;
+      min-width: 200px;
+      min-height: 350px;
+    }
+    .bar {
+      height: 30px;
+      color: green;
+      fill: lightgreen; /* background color for SVG */
+      /* border elements for SVG */
+      stroke: black;
+      stroke-width: 1;
+    }
+  </style>
 </head>
 <body>
-  <h2>Bar Chart Example</h2>
-  <div id="chartArea">
+  <!-- Used for selection examples
+  <div class="title">
+    <a href="#">About</a>
+    <a href="#">Products</a>
+    <a href="#">Contact</a>
   </div>
-  <script type="text/javascript" src="./javascript/bar-chart.js"></script>
 
-  <h2>Scatter Chart Example</h2>
-  <div id="chartArea2">
-  </div>
-  <script type="text/javascript" src="./javascript/scatter-plot.js"></script>
-  <button onclick="update()">Update</button>
+  <a class="action" href="#">Buy Now</a> -->
 
-  <h2>Line Chart Example</h2>
-  <div id="chart">
+  <div class="chart">
+    <!-- Used for basic data visualization example
+    <div>Billy</div>
+    <div>Cindy</div>
+    <div>Walter</div> -->
   </div>
-  <script type="text/javascript" src="./javascript/line-chart.js"></script>
-  <button onclick="updateChart('math')">Math</button>
-  <button onclick="updateChart('science')">Science</button>
-  <button onclick="updateChart('reading')">Reading</button>
 
-  <div>    
-    <a href="./responsive.html">Responsive Chart Example</a>
-  </div>
+  <script src="src/app.js"></script>
 </body>
 </html>
