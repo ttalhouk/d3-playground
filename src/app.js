@@ -236,50 +236,82 @@
 
 // Code orginization using .call
 
-var bar = d3.select('.chart')
+// var bar = d3.select('.chart')
+//   .append('svg')
+//     .attr('width', 225)
+//     .attr('height', 300)
+//   .selectAll('g')
+//   .data(scores)
+//   .enter()
+//     .append('g')
+//     .attr('transform', (d, i) => 'translate(0, ' + i * 33 + ')');
+//
+// // function to transform scale
+// function scaleBar (selection, scale) {
+//   selection.style('transform', 'scaleX(' + scale + ')');
+// }
+//
+// // function to set fill color
+// function setFill (selection, color) {
+//   selection.style('fill', color);
+// }
+//
+// // function to change opacity
+// function fade (selection, opacity) {
+//   selection.style('fill-opacity', opacity);
+// }
+//
+// bar.append('rect')
+//     .style('width', d => d.score)
+//     .attr('class', 'bar')
+//     .on('mouseover', function (d, i, elements) {
+//       d3.select(this)
+//         // calling the scaleBar and setFill functions
+//         .call(scaleBar, 2)
+//         .call(setFill, 'orange');
+//
+//       d3.selectAll(elements)
+//         .filter(':not(:hover)')
+//         // calling fade function
+//         .call(fade, 0.5);
+//     })
+//     .on('mouseout', function (d, i, elements) {
+//       d3.select(this)
+//         .call(scaleBar, 1)
+//         .call(setFill, 'lightgreen');
+//
+//       d3.selectAll(elements)
+//         .call(fade, 1);
+//     });
+
+// Margin Convention
+
+// set margin object with margins as keys
+var margin = { top: 10, right: 20, bottom: 25, left: 25 };
+// set width and height and subtract the related margins for the graphics element
+var width = 425 - margin.left - margin.right;
+var height = 625 - margin.top - margin.bottom;
+
+var svg = d3.select('.chart')
   .append('svg')
-    .attr('width', 225)
-    .attr('height', 300)
-  .selectAll('g')
-  .data(scores)
-  .enter()
-    .append('g')
-    .attr('transform', (d, i) => 'translate(0, ' + i * 33 + ')');
-
-// function to transform scale
-function scaleBar (selection, scale) {
-  selection.style('transform', 'scaleX(' + scale + ')');
-}
-
-// function to set fill color
-function setFill (selection, color) {
-  selection.style('fill', color);
-}
-
-// function to change opacity
-function fade (selection, opacity) {
-  selection.style('fill-opacity', opacity);
-}
-
-bar.append('rect')
-    .style('width', d => d.score)
-    .attr('class', 'bar')
-    .on('mouseover', function (d, i, elements) {
-      d3.select(this)
-        // calling the scaleBar and setFill functions
-        .call(scaleBar, 2)
-        .call(setFill, 'orange');
-
-      d3.selectAll(elements)
-        .filter(':not(:hover)')
-        // calling fade function
-        .call(fade, 0.5);
-    })
-    .on('mouseout', function (d, i, elements) {
-      d3.select(this)
-        .call(scaleBar, 1)
-        .call(setFill, 'lightgreen');
-
-      d3.selectAll(elements)
-        .call(fade, 1);
-    });
+    // add margins back in to create the overall SVG
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .style('fill', 'lightgray')
+  // create a graphics element for the SVG
+  .append('g')
+    // set transform to offset per the margins
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+// add a rect to the graphics element
+svg.append('rect')
+  .attr('width', width / 2)
+  .attr('height', height)
+  .style('fill', 'lightblue')
+  .style('stroke', 'green');
+// make second rect and offset x by half the graphics element width
+svg.append('rect')
+  .attr('x', width / 2)
+  .attr('width', width / 2)
+  .attr('height', height)
+  .style('fill', 'lightblue')
+  .style('stroke', 'green');
