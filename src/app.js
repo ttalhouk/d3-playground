@@ -625,23 +625,44 @@ d3.json('../data/line-chart_data.json', function (err, data) {
     .append('g')
     .call(d3.axisLeft(yScale));
 
-  // build line
-  var line = d3.line()
+  // // build line
+  // var line = d3.line()
+  //   .x(d => xScale(d.date))
+  //   .y(d => yScale(d.close))
+  //   // apply curve through data points
+  //   .curve(d3.curveCatmullRom.alpha(0.5));
+  //
+  // svg
+  //   .selectAll('.line')
+  //   .data(data)
+  //   .enter()
+  //   .append('path')
+  //   // apply line class for svg to select
+  //   .attr('class', 'line')
+  //   .attr('d', d => line(d.values))
+  //   .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
+  //   .style('stroke-width', 2)
+  //   .style('fill', 'none');
+// Area Charts example
+
+  var area = d3.area()
     .x(d => xScale(d.date))
-    .y(d => yScale(d.close))
-    // apply curve through data points
-    .curve(d3.curveCatmullRom.alpha(0.5));
+    // set bottom of the area to the min domain value
+    .y0(yScale(yScale.domain()[0]))
+    .y1(d => yScale(d.close));
 
   svg
-    .selectAll('.line')
+    .selectAll('.area')
     .data(data)
     .enter()
     .append('path')
-    // apply line class for svg to select
-    .attr('class', 'line')
-    .attr('d', d => line(d.values))
+    .attr('class', 'area')
+    // pass data values to area function
+    .attr('d', d => area(d.values))
     .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
     .style('stroke-width', 2)
-    .style('fill', 'none');
+    .style('fill', (d, i) => ['#FF9900', '#3369E8'][i])
+    .style('fill-opacity', 0.5);
+
 
 });
