@@ -118,13 +118,13 @@
 //
 
 // Data visualization
-    // var scores = [
-    //   { name: 'Alice', score: 96 },
-    //   { name: 'Billy', score: 83 },
-    //   { name: 'Cindy', score: 91 },
-    //   { name: 'David', score: 96 },
-    //   { name: 'Emily', score: 88 }
-    // ];
+    var scores = [
+      { name: 'Alice', score: 96 },
+      { name: 'Billy', score: 83 },
+      { name: 'Cindy', score: 91 },
+      { name: 'David', score: 96 },
+      { name: 'Emily', score: 88 }
+    ];
     //
     // var update = d3.select('.chart')
     //   .selectAll('div')
@@ -150,13 +150,6 @@
 
 // SVG example
 
-var scores = [
-  { name: 'Alice', score: 96 },
-  { name: 'Billy', score: 83 },
-  { name: 'Cindy', score: 91 },
-  { name: 'David', score: 96 },
-  { name: 'Emily', score: 88 }
-];
 
 // d3.select('.chart')
 //   // create SVG Element
@@ -206,6 +199,43 @@ var scores = [
 
 // Interactive elements
 
+// var bar = d3.select('.chart')
+//   .append('svg')
+//     .attr('width', 225)
+//     .attr('height', 300)
+//   .selectAll('g')
+//   .data(scores)
+//   .enter()
+//     .append('g')
+//     .attr('transform', (d, i) => 'translate(0, ' + i * 33 + ')');
+//
+// bar.append('rect')
+//     .style('width', d => d.score)
+//     .attr('class', 'bar')
+//     // set on mouseover event handler callback using d(ata), i(ndex), elements (list of rect elements)
+//     .on('mouseover', function (d, i, elements) {
+//       // the item moused over is transformed in the x direction by 2x
+//       d3.select(this).style('transform', 'scaleX(2)');
+//       // all elements not hovered over have opacity decreased to .5
+//       d3.selectAll(elements)
+//         .filter(':not(:hover)')
+//         .style('fill-opacity', 0.5);
+//     })
+//     // reverse on mouse out
+//     .on('mouseout', function (d, i, elements) {
+//       d3.select(this).style('transform', 'scaleX(1)');
+//       d3.selectAll(elements)
+//         .style('fill-opacity', 1);
+//     });
+//
+// bar.append('text')
+//   .attr('y', 20)
+//   .text(function (d) {
+//     return d.name;
+//   });
+
+// Code orginization using .call
+
 var bar = d3.select('.chart')
   .append('svg')
     .attr('width', 225)
@@ -216,27 +246,40 @@ var bar = d3.select('.chart')
     .append('g')
     .attr('transform', (d, i) => 'translate(0, ' + i * 33 + ')');
 
+// function to transform scale
+function scaleBar (selection, scale) {
+  selection.style('transform', 'scaleX(' + scale + ')');
+}
+
+// function to set fill color
+function setFill (selection, color) {
+  selection.style('fill', color);
+}
+
+// function to change opacity
+function fade (selection, opacity) {
+  selection.style('fill-opacity', opacity);
+}
+
 bar.append('rect')
     .style('width', d => d.score)
     .attr('class', 'bar')
-    // set on mouseover event handler callback using d(ata), i(ndex), elements (list of rect elements)
     .on('mouseover', function (d, i, elements) {
-      // the item moused over is transformed in the x direction by 2x
-      d3.select(this).style('transform', 'scaleX(2)');
-      // all elements not hovered over have opacity decreased to .5
+      d3.select(this)
+        // calling the scaleBar and setFill functions
+        .call(scaleBar, 2)
+        .call(setFill, 'orange');
+
       d3.selectAll(elements)
         .filter(':not(:hover)')
-        .style('fill-opacity', 0.5);
+        // calling fade function
+        .call(fade, 0.5);
     })
-    // reverse on mouse out
     .on('mouseout', function (d, i, elements) {
-      d3.select(this).style('transform', 'scaleX(1)');
-      d3.selectAll(elements)
-        .style('fill-opacity', 1);
-    });
+      d3.select(this)
+        .call(scaleBar, 1)
+        .call(setFill, 'lightgreen');
 
-bar.append('text')
-  .attr('y', 20)
-  .text(function (d) {
-    return d.name;
-  });
+      d3.selectAll(elements)
+        .call(fade, 1);
+    });
