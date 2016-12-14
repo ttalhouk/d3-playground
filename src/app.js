@@ -686,34 +686,111 @@ function responsivefy(svg) {
 
 // Reusable Transitions
 
-function go () {
-  // t is a transition function with a delay and durration set to 1s
-  var t = d3.transition()
+// function go () {
+//   // t is a transition function with a delay and durration set to 1s
+//   var t = d3.transition()
+//     .delay(1000)
+//     .duration(1000);
+//
+//   d3.selectAll('.block')
+//     .transition(t)
+//     .style('width', '400px');
+//
+//   d3.select('.a')
+//     .transition(t)
+//     .style('background-color', 'orange');
+//
+//   d3.select('.b')
+//     .transition(t)
+//     .style('background-color', 'blue');
+// }
+//
+// // configure function sets up a t transition function with variable
+// // delay and duration
+// function configure (t, delay, duration) {
+//   return t.delay(delay).duration(duration);
+// }
+//
+// function goNow () {
+//   d3.selectAll('.block')
+//     .transition()
+//     .call(configure, 1000, 1000)
+//     .style('height', '200px');
+// }
+
+var data = [
+  {name: 'Alice', math: 37,   science: 62,   language: 54},
+  {name: 'Billy', math: null, science: 34,   language: 85},
+  {name: 'Cindy', math: 86,   science: 48,   language: null},
+  {name: 'David', math: 44,   science: null, language: 65},
+  {name: 'Emily', math: 59,   science: 73,   language: 29}
+];
+
+var margin = { top: 10, right: 10, bottom: 30, left: 30 };
+var width = 400 - margin.left - margin.right;
+var height = 535 - margin.top - margin.bottom;
+
+var svg = d3.select('.chart')
+  .append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .call(responsivefy)
+  .append('g')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+var xScale = d3.scaleBand()
+  .domain(data.map(d => d.name))
+  .range([0, width])
+  .padding(0.2);
+svg
+  .append('g')
+    .attr('transform', `translate(0, ${height})`)
+  .call(d3.axisBottom(xScale));
+
+var yScale = d3.scaleLinear()
+  .domain([0, 100])
+  .range([height, 0]);
+svg
+  .append('g')
+  .call(d3.axisLeft(yScale));
+
+function render (subject = 'math') {
+  var t = d3.transition().duration(1000);
+
+  // update function
+  var update = svg.selectAll('rect')
+    // filter the data per subject and key it to the name
+    .data(data.filter(d => d[subject]), d => d.name);
+
+  // any values that are now null get removed after tansitions
+  update.exit()
+    .transition(t)
+    .attr('y', height)
+    .attr('height', 0)
+    .remove();
+
+  // update with new vaules
+  update
+    .transition(t)
     .delay(1000)
-    .duration(1000);
+    .attr('y', d => yScale(d[subject]))
+    .attr('height', d => height - yScale(d[subject]));
 
-  d3.selectAll('.block')
+  // add any new values that are changed from null
+  update
+    .enter()
+    .append('rect')
+    .attr('y', height)
+    .attr('height', 0)
+    .attr('x', d => xScale(d.name))
+    .attr('width', d => xScale.bandwidth())
     .transition(t)
-    .style('width', '400px');
-
-  d3.select('.a')
-    .transition(t)
-    .style('background-color', 'orange');
-
-  d3.select('.b')
-    .transition(t)
-    .style('background-color', 'blue');
+    // remove delay for initial load
+    .delay(update.exit().size() ? 2000 : 0)
+    // add the new value for the bar that is entering
+    .attr('y', d => yScale(d[subject]))
+    .attr('height', d => height - yScale(d[subject]));
 }
 
-// configure function sets up a t transition function with variable
-// delay and duration
-function configure (t, delay, duration) {
-  return t.delay(delay).duration(duration);
-}
-
-function goNow () {
-  d3.selectAll('.block')
-    .transition()
-    .call(configure, 1000, 1000)
-    .style('height', '200px');
-}
+// initial render call
+render();
