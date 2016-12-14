@@ -498,6 +498,86 @@ function responsivefy(svg) {
 
 // Scatter Plot exercise
 
+// var margin = { top: 10, right: 20, bottom: 30, left: 30 };
+// var width = 400 - margin.left - margin.right;
+// var height = 565 - margin.top - margin.bottom;
+//
+// var svg = d3.select('.chart')
+//   .append('svg')
+//     .attr('width', width + margin.left + margin.right)
+//     .attr('height', height + margin.top + margin.bottom)
+//     .call(responsivefy)
+//   .append('g')
+//     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+//
+// // load data
+// d3.json('../data/scatter_data.json', function (err, data) {
+//   var yScale = d3.scaleLinear()
+//     // pull life expectancy data for y axis domain
+//     .domain(d3.extent(data, d => d.expectancy))
+//     .range([height, 0])
+//     .nice();
+//   var yAxis = d3.axisLeft(yScale);
+//   svg.call(yAxis);
+//
+//   var xScale = d3.scaleLinear()
+//     // pull cost of health care cost data for x axis domain
+//     .domain(d3.extent(data, d => d.cost))
+//     .range([0, width])
+//     // .nice makes the ticks on nice round numbers
+//     .nice();
+//
+//   var xAxis = d3.axisBottom(xScale)
+//     .ticks(5);
+//   svg
+//     .append('g')
+//       .attr('transform', `translate(0, ${height})`)
+//     .call(xAxis);
+//
+//   // use square root scalling for radius to make sizes managible
+//   var rScale = d3.scaleSqrt()
+//     // pull population data for radius domain
+//     .domain([0, d3.max(data, d => d.population)])
+//     .range([0, 40]);
+//
+//   // create graphics containers and select all the ball class elements
+//   // add them to the circles variable
+//   var circles = svg
+//     .selectAll('.ball')
+//     .data(data)
+//     .enter()
+//     .append('g')
+//     // apply ball class
+//     .attr('class', 'ball')
+//     // set the elements to the x and y axis
+//     .attr('transform', d => {
+//       return `translate(${xScale(d.cost)}, ${yScale(d.expectancy)})`;
+//     });
+//
+//   circles
+//     // create circle element
+//     .append('circle')
+//     // set center default to (0,0)
+//     .attr('cx', 0)
+//     .attr('cy', 0)
+//     // set radius based on population
+//     .attr('r', d => rScale(d.population))
+//     .style('fill-opacity', 0.5)
+//     .style('fill', 'steelblue');
+//
+//   // create labels for the circles
+//   circles
+//     .append('text')
+//     // centers texts
+//     .style('text-anchor', 'middle')
+//     .style('fill', 'black')
+//     .attr('y', 4)
+//     .text(d => d.code);
+//
+// });
+
+// line chart example
+
 var margin = { top: 10, right: 20, bottom: 30, left: 30 };
 var width = 400 - margin.left - margin.right;
 var height = 565 - margin.top - margin.bottom;
@@ -508,59 +588,60 @@ var svg = d3.select('.chart')
     .attr('height', height + margin.top + margin.bottom)
     .call(responsivefy)
   .append('g')
-    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-// load data
-d3.json('../data/scatter_data.json', function (err, data) {
-  var yScale = d3.scaleLinear()
-    // pull life expectancy data for y axis domain
-    .domain(d3.extent(data, d => d.expectancy))
-    .range([height, 0])
-    .nice();
-  var yAxis = d3.axisLeft(yScale);
-  svg.call(yAxis);
+d3.json('../data/line-chart_data.json', function (err, data) {
+  // parsing time data as formated for data
+  var parseTime = d3.timeParse('%Y/%m/%d');
 
-  var xScale = d3.scaleLinear()
-    // pull cost of health care cost data for x axis domain
-    .domain(d3.extent(data, d => d.cost))
-    .range([0, width])
-    .nice();
+  // itterate over the data to transform
+  data.forEach(company => {
+    company.values.forEach(d => {
+      d.date = parseTime(d.date);
+      d.close = +d.close; // + converts to a numeric expression
+    });
+  });
 
-  var xAxis = d3.axisBottom(xScale)
-    .ticks(5);
+  // build x axis graphics container
+  var xScale = d3.scaleTime()
+    .domain([
+      d3.min(data, co => d3.min(co.values, d => d.date)),
+      d3.max(data, co => d3.max(co.values, d => d.date))
+    ])
+    .range([0, width]);
   svg
     .append('g')
       .attr('transform', `translate(0, ${height})`)
-    .call(xAxis);
+    .call(d3.axisBottom(xScale).ticks(5));
 
-  var rScale = d3.scaleSqrt()
-    // pull population data for radius domain
-    .domain([0, d3.max(data, d => d.population)])
-    .range([0, 40]);
+  // build y axis graphics container
+  var yScale = d3.scaleLinear()
+    .domain([
+      d3.min(data, co => d3.min(co.values, d => d.close)),
+      d3.max(data, co => d3.max(co.values, d => d.close))
+    ])
+    .range([height, 0]);
+  svg
+    .append('g')
+    .call(d3.axisLeft(yScale));
 
-  var circles = svg
-    .selectAll('.ball')
+  // build line
+  var line = d3.line()
+    .x(d => xScale(d.date))
+    .y(d => yScale(d.close))
+    // apply curve through data points
+    .curve(d3.curveCatmullRom.alpha(0.5));
+
+  svg
+    .selectAll('.line')
     .data(data)
     .enter()
-    .append('g')
-    .attr('class', 'ball')
-    .attr('transform', d => {
-      return `translate(${xScale(d.cost)}, ${yScale(d.expectancy)})`;
-    });
-
-  circles
-    .append('circle')
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .attr('r', d => rScale(d.population))
-    .style('fill-opacity', 0.5)
-    .style('fill', 'steelblue');
-
-  circles
-    .append('text')
-    .style('text-anchor', 'middle')
-    .style('fill', 'black')
-    .attr('y', 4)
-    .text(d => d.code);
+    .append('path')
+    // apply line class for svg to select
+    .attr('class', 'line')
+    .attr('d', d => line(d.values))
+    .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
+    .style('stroke-width', 2)
+    .style('fill', 'none');
 
 });
