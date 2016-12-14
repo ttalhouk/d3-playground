@@ -285,33 +285,81 @@
 //     });
 
 // Margin Convention
-
+//
 // set margin object with margins as keys
-var margin = { top: 10, right: 20, bottom: 25, left: 25 };
-// set width and height and subtract the related margins for the graphics element
+// var margin = { top: 10, right: 20, bottom: 25, left: 25 };
+// // set width and height and subtract the related margins for the graphics element
+// var width = 425 - margin.left - margin.right;
+// var height = 625 - margin.top - margin.bottom;
+//
+// var svg = d3.select('.chart')
+//   .append('svg')
+//     // add margins back in to create the overall SVG
+//     .attr('width', width + margin.left + margin.right)
+//     .attr('height', height + margin.top + margin.bottom)
+//     .style('fill', 'lightgray')
+//   // create a graphics element for the SVG
+//   .append('g')
+//     // set transform to offset per the margins
+//     .attr('transform', `translate(${margin.left}, ${margin.top})`);
+// // add a rect to the graphics element
+// svg.append('rect')
+//   .attr('width', width / 2)
+//   .attr('height', height)
+//   .style('fill', 'lightblue')
+//   .style('stroke', 'green');
+// // make second rect and offset x by half the graphics element width
+// svg.append('rect')
+//   .attr('x', width / 2)
+//   .attr('width', width / 2)
+//   .attr('height', height)
+//   .style('fill', 'lightblue')
+//   .style('stroke', 'green');
+
+
+// adding axis example
+
+var margin = { top: 10, right: 20, bottom: 60, left: 40 };
 var width = 425 - margin.left - margin.right;
 var height = 625 - margin.top - margin.bottom;
 
 var svg = d3.select('.chart')
   .append('svg')
-    // add margins back in to create the overall SVG
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
-    .style('fill', 'lightgray')
-  // create a graphics element for the SVG
   .append('g')
-    // set transform to offset per the margins
-    .attr('transform', `translate(${margin.left}, ${margin.top})`);
-// add a rect to the graphics element
+    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
 svg.append('rect')
-  .attr('width', width / 2)
+  .attr('width', width)
   .attr('height', height)
   .style('fill', 'lightblue')
   .style('stroke', 'green');
-// make second rect and offset x by half the graphics element width
-svg.append('rect')
-  .attr('x', width / 2)
-  .attr('width', width / 2)
-  .attr('height', height)
-  .style('fill', 'lightblue')
-  .style('stroke', 'green');
+
+// set y scale
+var yScale = d3.scaleLinear()
+  // domain sets the axis range
+  .domain([0, 100])
+  // reverse order so min value is at bottom ('height') and max is at top (0)
+  .range([height, 0]);
+// create axis using .axisLeft supplying it with the scale
+var yAxis = d3.axisLeft(yScale)
+  // you can adjust the number of ticks with .ticks(number)
+  .ticks(5);
+  // there are other arguments you can pass to ticks or if
+  // you need exact ticks .tickValues([val1, val2, ...])
+// add axis to chart using .call
+svg.call(yAxis);
+
+var xScale = d3.scaleTime()
+  .domain([new Date(2016, 0, 1, 6), new Date(2016, 0, 1, 9)])
+  .range([0, width]);
+
+var xAxis = d3.axisBottom(xScale)
+  .ticks(5)
+  .tickSize(10)
+  .tickPadding(5);
+svg
+  .append('g')
+    .attr('transform', `translate(0, ${height})`)
+  .call(xAxis);
